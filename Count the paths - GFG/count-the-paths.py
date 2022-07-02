@@ -7,18 +7,23 @@ class Solution:
         for frm, to in edges:
             g[frm].add(to)
             
-        cnt = 0
-        def dfs(node):
-            nonlocal d, cnt
-            if node == d:
-                cnt += 1
+        count=0
+        
+        def dfs(s):
+            nonlocal count,d
+            if s==d:
+                count+=1
                 return
             
-            for nbr in g[node]:
-                dfs(nbr)
+            for j in g[s]:
+                dfs(j)
+
         
+
+            
         dfs(s)
-        return cnt
+        return count
+                
 #{ 
 #  Driver Code Starts
 #Initial Template for Python 3
