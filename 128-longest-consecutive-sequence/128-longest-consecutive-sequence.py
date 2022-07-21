@@ -1,14 +1,27 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        num_set = set(nums)
+        nums=set(nums)
+        nums=list(nums)
+        nums.sort()
+        if len(nums)==0:
+            return 0
+        ans=1
+        prev=nums[0]
+        curr=1
         
-        longest_sequence = 0
-        for num in nums:
-            if num - 1 in num_set:
-                continue
-            current_length = 1
-            while num + 1 in num_set:
-                num += 1
-                current_length += 1
-            longest_sequence = max(longest_sequence, current_length)
-        return longest_sequence
+        for i in range(1,len(nums)):
+            if nums[i]==prev+1:
+                curr+=1
+                
+                
+            elif nums[i]!=prev+1:
+                curr=1
+                
+            
+            prev=nums[i]
+            
+            ans=max(ans,curr)
+            
+            
+            
+        return ans
