@@ -1,53 +1,65 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        state= [["."] * n for _ in range(n)] # start with empty board
-        res=[]
-        
-        # for tracking the columns which already have a queen
-        visited_cols=set()
-        
-        # This will hold the difference of row and col
-        # This is required to identify antidiagonals
-        # specifically for diagonals with increasing row and increasing col pattern
-        # example: square (1,0) = 1-0 = 1
-        # squares in same diagonals will have same difference
-        # example: squares (0,0) and (8,8) are in the same diagonal
-        # as both have same difference which is `0`
-        
-        visited_diagonals=set()
-        
-        # This will hold the sum of row and col
-        # This is required to identify antidiagonals.
-        # specifically for diagonals with increasing row and decreasing col pattern
-        # the squares in same diagonal won't have the same difference.
-        # example: square (1,0) = 1-0 = 1
-        # squares in same diagonals will have same difference
-        # example: squares (0,7) and (1,6) are in the same diagonal
-        # as both have same sum which is `7`
-        visited_antidiagonals=set()
-        
-        def backtrack(r):
-            if r==n:                
-                res.append(["".join(row) for row in state])
-                return
+        def safe(row, col , board,n):
+            r=row
+            c=col
             
-            for c in range(n):
-                diff=r-c
-                _sum=r+c
+            while row>=0 and col>=0 :
+                if board[row][col]=='Q':
+                    return False
+                row-=1
+                col-=1
                 
-                # If the current square doesn't have another queen in same column and diagonal.
-                if not (c in visited_cols or diff in visited_diagonals or _sum in visited_antidiagonals):                    
-                    visited_cols.add(c)
-                    visited_diagonals.add(diff)
-                    visited_antidiagonals.add(_sum)
-                    state[r][c]='Q' # place the queen
-                    backtrack(r+1) 
-
-                    # reset the path
-                    visited_cols.remove(c)
-                    visited_diagonals.remove(diff)
-                    visited_antidiagonals.remove(_sum)
-                    state[r][c]='.'                                
-
-        backtrack(0)
-        return res
+                
+            row=r
+            col=c
+            while col>=0:
+                if board[row][col]=='Q':
+                    return False
+                
+                col-=1
+                
+                
+            
+            row=r
+            col=c
+            
+            while row<n and col>=0:
+                if board[row][col]=='Q':
+                    return False
+                
+                row+=1
+                col-=1
+                
+                
+                
+                
+                
+                
+            return True
+        
+        
+        
+        
+        def func(col,board,ans,n):
+            if col==n:
+                ans.append(["".join(i) for i in board])
+                return 
+            
+            
+            for row in range(n):
+                if safe(row,col,board,n):
+                    board[row][col]='Q'
+                    func(col+1,board,ans,n)
+                    board[row][col]='.'
+                    
+                    
+            
+            
+        ans=[]   
+        board = [["." for i in range(n)] for i in range(n)]
+            
+            
+            
+        func(0,board,ans,n)
+        return ans
