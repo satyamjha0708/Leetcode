@@ -6,43 +6,28 @@
 #         self.right = right
 class Solution:
     def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
-        
-        def func(root,level,d):
-            if not root:
-                return 
-
-            q=[]
-            q.append([root,level])
-
-            while q:
-                ans=q.pop(0)
-                l1=ans[1]
-                da=ans[0]
-                if l1 not in d:
-                    d[l1]=[da.val]
-
-                else:
-                    d[l1].append(da.val)
-
-
-                if (da.left):
-                    func(da.left,level+1,d)
-
-                if (da.right):
-                    func(da.right,level+1,d)
-                
-            return d
-        d={}
-        d1=func(root,1,d)   
         ans=[]
-        
-        for key,values in d.items():
-            ans.append(float(sum(values)/len(values)))
-            
-            
-        return ans
-        
-
+        queue=[root]
+        m=[]
+        while queue:
+                
+                size=len(queue)
+                l=[]
+                
+                for i in range(size):
+                        x=queue.pop(0)
+                        if x.left:
+                                queue.append(x.left)
+                                
+                        if x.right:
+                                queue.append(x.right)
+                                
+                        l.append(x.val)
+                        
+                m.append(float(sum(l)/len(l)))
+                
+                
+        return m
 
                 
                 
