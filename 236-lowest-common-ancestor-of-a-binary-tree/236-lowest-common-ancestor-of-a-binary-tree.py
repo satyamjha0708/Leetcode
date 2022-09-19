@@ -7,33 +7,24 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        def func(root,l,arr):
-                if root==None:
-                        return False
+        def func(root,p,q):
+                if root==None or root==q or root==p:
+                        return root
                 
-                arr.append(root)
+                l=func(root.left,p,q)
+                r=func(root.right,p,q)
                 
-                if root.val==l:
-                        return True
+                if l==None:
+                        return r
+                if r==None:
+                        return l
                 
                 
-                if func(root.left,l,arr) or func(root.right,l,arr):
-                        return True
+                else:
+                        return root
                 
                 
-                arr.pop()
-                return False
-        
-        arr=[]
-        arr1=[]
-        func(root,p.val,arr)
-        func(root,q.val,arr1)
-        
-        
-        for i in range(len(arr)-1,-1,-1):
-                if arr[i] in arr1:
-                        return arr[i]
-        
+        return func(root,p,q)
         
         
         
