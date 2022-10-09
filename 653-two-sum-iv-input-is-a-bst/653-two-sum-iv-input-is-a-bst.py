@@ -7,7 +7,8 @@
 class Solution:
     def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
         s=set()
-        def helper(root):
+        
+        def func(root):
                 if not root:
                         return False
                 
@@ -16,6 +17,10 @@ class Solution:
                 
                 
                 s.add(root.val)
-                return helper(root.left) or helper(root.right)
+                
+                return (func(root.left) or func(root.right))
+
         
-        return helper(root)
+        
+        return func(root)                
+                
